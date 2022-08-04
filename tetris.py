@@ -47,7 +47,7 @@ class Tetris:
     width = 0
     x = 100
     y = 60 
-    zoom = 20
+    zoom = 40
     figure = None
 
     def __init__(self, height, width) :
@@ -128,7 +128,7 @@ BLACK = (0,0,0)
 WHITE = (255,255,255)
 GRAY = (128,128,128)
 
-size = (400, 500)
+size = (800, 1000)
 screen = pygame.display.set_mode(size)
 pygame.display.set_caption("TETRIS - by mastyx ")
 done = False
@@ -154,6 +154,7 @@ while not done:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             done = True
+        #eventi della pressione dei tasti
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_UP:
                 game.rotate()
@@ -169,6 +170,7 @@ while not done:
                 game.go_space()
             if event.key == pygame.K_ESCAPE:
                 game.__init__(20,10)
+    # eventi del rilasio del tasto
     if event.type == pygame.KEYUP:
         if event.key == pygame.K_DOWN:
             pressing_down = False
