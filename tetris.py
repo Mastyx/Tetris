@@ -28,6 +28,7 @@ class Figure:
         self.y = y
         self.type = random.randint(0, len(self.figures) -1)
         self.color = random.randint(1, len(colori_figure) -1)
+        print(self.type)
         self.rotation = 0
 
 
@@ -169,7 +170,7 @@ while not done:
             if event.key == pygame.K_SPACE:
                 game.go_space()
             if event.key == pygame.K_ESCAPE:
-                game.__init__(20,10)
+                done = True
     # eventi del rilasio del tasto
     if event.type == pygame.KEYUP:
         if event.key == pygame.K_DOWN:
