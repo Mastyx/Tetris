@@ -1,6 +1,7 @@
 import pygame
-
-window_size = (600, 400)
+width = 1000
+height = 700
+window_size = (width, height)
 status_app = True 
 
 pygame.init()
@@ -13,6 +14,8 @@ figura = [
         [1,5,9,13], 
         [2,6,5,9],
         ]
+larghezza_quadrato = 20
+
 while status_app:
 
     for event in pygame.event.get():
@@ -21,11 +24,15 @@ while status_app:
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
                status_app = False 
+    # griglia
+    for i in range(10) :
+        for j in range(20):
+            pygame.draw.rect(
+                    screen, WHITE, 
+                    ( larghezza_quadrato * i + ((width/2)-(larghezza_quadrato*10)/2), 
+                        larghezza_quadrato * j + 50, 
+                        larghezza_quadrato, larghezza_quadrato), 1)
 
-    for i in range(4):
-        for j in range(4):
-            pygame.draw.rect(screen, WHITE, (i+10,j+10, 20, 20) )  
-            
     
     pygame.display.flip()
 
