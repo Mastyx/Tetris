@@ -27,22 +27,22 @@ class Tetris:
             self.field.append(new_line)
 
     def new_figure(self):
-        x = random.randint(5, 15)
+        x = random.randint(5, 5)
         self.figure = Figure(x, 0)
         if self.figure.type == 0:
             self.I+=1
         elif self.figure.type == 1:
-            self.S+=1
+            self.Z+=1
         elif self.figure.type == 2:
-            self.L+=1
+            self.S+=1
         elif self.figure.type == 3:
             self.J+=1
         elif self.figure.type == 4:
-            self.T+=1
+            self.L+=1
         elif self.figure.type == 5:
-            self.O+=1
+            self.T+=1
         elif self.figure.type == 6:
-            self.Z+=1
+            self.O+=1
 
         print(self.figure.type)
 
@@ -121,7 +121,7 @@ pygame.display.set_caption("TETRIS - by mastyx ")
 done = False
 clock = pygame.time.Clock()
 fps = 25
-game = Tetris(30, 20)
+game = Tetris(20, 10)
 counter = 0 
 
 pressing_down = False
@@ -152,10 +152,8 @@ while not done:
                 pressing_down = True
             if event.key == pygame.K_LEFT:
                 game.go_side(-1)
-                print("Sinistra")
             if event.key == pygame.K_RIGHT:
                 game.go_side(1)
-                print("Destra")
             if event.key == pygame.K_SPACE:
                 game.go_space()
             if event.key == pygame.K_ESCAPE:
@@ -190,14 +188,24 @@ while not done:
     font = pygame.font.SysFont('Calibri', 25, True, False)
     font1 = pygame.font.SysFont('Calibri', 45, True, False)
     text = font.render("Score: " + str(game.score), True, BLACK)
-    pezzo_i = font.render(f"I : {game.I}", True, BLACK) 
-    pezzo_s = font.render(f"S : {game.S}", True, BLACK)
-    
+    pezzo_i = font.render(f"I   : {game.I}", True, BLACK) 
+    pezzo_s = font.render(f"S   : {game.S}", True, BLACK)
+    pezzo_l = font.render(f"L   : {game.L}", True, BLACK)
+    pezzo_j = font.render(f"J   : {game.J}", True, BLACK)
+    pezzo_t = font.render(f"T   : {game.T}", True, BLACK)
+    pezzo_o = font.render(f"O   : {game.O}", True, BLACK)
+    pezzo_z = font.render(f"Z   : {game.Z}", True, BLACK)
+
     text_game_over = font1.render("Game Over", True, (255, 125, 0))
     text_game_over1 = font1.render("Press ESC", True, (255, 215, 0))
     screen.blit(text, [0, 0])
     screen.blit(pezzo_i, [600,10])
-    screen.blit(pezzo_s, [600,30])
+    screen.blit(pezzo_s, [600,40])
+    screen.blit(pezzo_l, [600,70])
+    screen.blit(pezzo_j, [600,100])
+    screen.blit(pezzo_t, [600,130])
+    screen.blit(pezzo_o, [600,160])
+    screen.blit(pezzo_z, [600,190])
     if game.state == "gameover":
         screen.blit(text_game_over, [60, 200])
         screen.blit(text_game_over1, [65, 265])
