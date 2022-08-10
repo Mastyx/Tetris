@@ -15,6 +15,7 @@ class Tetris:
     y = 60 
     zoom = 20
     figure = None
+    I=0;S=0; L=0; J=0; T=0; O=0; Z=0 
 
     def __init__(self, height, width) :
         self.height = height
@@ -28,6 +29,7 @@ class Tetris:
     def new_figure(self):
         x = random.randint(5, 15)
         self.figure = Figure(x, 0)
+        print(self.figure.type)
 
     def intersects(self):
         intersection = False
@@ -96,6 +98,8 @@ BLACK = (0,0,0)
 WHITE = (255,255,255)
 GRAY = (128,128,128)
 
+
+
 size = (800, 1000)
 screen = pygame.display.set_mode(size)
 pygame.display.set_caption("TETRIS - by mastyx ")
@@ -140,6 +144,7 @@ while not done:
             if event.key == pygame.K_SPACE:
                 game.go_space()
             if event.key == pygame.K_ESCAPE:
+                print(f"I {game.I}\nS {game.S}\n ")
                 done = True
     # eventi del rilasio del tasto
     if event.type == pygame.KEYUP:
@@ -157,6 +162,7 @@ while not done:
 
     
     if game.figure is not None:
+
         for i in range(4):
             for j in range(4):
                 p = i * 4 + j

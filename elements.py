@@ -30,7 +30,7 @@ class Figure:
         self.y = y
         self.type = self.select_type()
         self.color = self.select_color()         
-        print(f"tipo: {self.type} colore : {self.color}")
+        # print(f"tipo: {self.type} colore : {self.color}")
 
         self.rotation = 0
     
