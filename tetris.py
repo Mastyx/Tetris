@@ -26,8 +26,8 @@ class Tetris:
             self.field.append(new_line)
 
     def new_figure(self):
-        y = random.randint(5, 15)
-        self.figure = Figure(y, 0)
+        x = random.randint(5, 15)
+        self.figure = Figure(x, 0)
 
     def intersects(self):
         intersection = False
