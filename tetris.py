@@ -29,6 +29,21 @@ class Tetris:
     def new_figure(self):
         x = random.randint(5, 15)
         self.figure = Figure(x, 0)
+        if self.figure.type == 0:
+            self.I+=1
+        elif self.figure.type == 1:
+            self.S+=1
+        elif self.figure.type == 2:
+            self.L+=1
+        elif self.figure.type == 3:
+            self.J+=1
+        elif self.figure.type == 4:
+            self.T+=1
+        elif self.figure.type == 5:
+            self.O+=1
+        elif self.figure.type == 6:
+            self.Z+=1
+
         print(self.figure.type)
 
     def intersects(self):
@@ -144,7 +159,7 @@ while not done:
             if event.key == pygame.K_SPACE:
                 game.go_space()
             if event.key == pygame.K_ESCAPE:
-                print(f"I {game.I}\nS {game.S}\n ")
+                print(f"I {game.I}\nS {game.S}\nL {game.L}\nJ {game.J}\nT {game.T}\nO {game.O}\nZ {game.Z}\n")
                 done = True
     # eventi del rilasio del tasto
     if event.type == pygame.KEYUP:
@@ -175,10 +190,14 @@ while not done:
     font = pygame.font.SysFont('Calibri', 25, True, False)
     font1 = pygame.font.SysFont('Calibri', 45, True, False)
     text = font.render("Score: " + str(game.score), True, BLACK)
+    pezzo_i = font.render(f"I : {game.I}", True, BLACK) 
+    pezzo_s = font.render(f"S : {game.S}", True, BLACK)
+    
     text_game_over = font1.render("Game Over", True, (255, 125, 0))
     text_game_over1 = font1.render("Press ESC", True, (255, 215, 0))
     screen.blit(text, [0, 0])
-
+    screen.blit(pezzo_i, [600,10])
+    screen.blit(pezzo_s, [600,30])
     if game.state == "gameover":
         screen.blit(text_game_over, [60, 200])
         screen.blit(text_game_over1, [65, 265])
