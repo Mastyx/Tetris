@@ -20,6 +20,12 @@ class Tetris:
     def __init__(self, height, width) :
         self.height = height
         self.width = width
+        self.field = []
+        self.score = 0
+        self.state = "start"
+        self.number_figure = 0
+        self.next_figure = []
+
         for i in range(height):
             new_line = []
             for j in range(width):
@@ -27,8 +33,17 @@ class Tetris:
             self.field.append(new_line)
 
     def new_figure(self):
-        x = random.randint(5, 5)
-        self.figure = Figure(x, 0)
+        self.next_figure.append( Figure(3,0) )
+
+        self.next_figure.append( Figure(3,0) )
+        print("self.next_figure numero : ", len(self.next_figure))
+       
+        self.figure = self.next_figure[len(self.next_figure)-1]
+        
+
+        self.number_figure += 1
+        
+
         if self.figure.type == 0:
             self.I+=1
         elif self.figure.type == 1:
@@ -44,7 +59,8 @@ class Tetris:
         elif self.figure.type == 6:
             self.O+=1
 
-        print(self.figure.type)
+        print(f"n.{self.number_figure} - {self.figure.type}")
+
 
     def intersects(self):
         intersection = False
@@ -121,7 +137,7 @@ pygame.display.set_caption("TETRIS - by mastyx ")
 done = False
 clock = pygame.time.Clock()
 fps = 25
-game = Tetris(20, 10)
+game = Tetris(25, 10)
 counter = 0 
 
 pressing_down = False
@@ -164,7 +180,7 @@ while not done:
         if event.key == pygame.K_DOWN:
             pressing_down = False
 
-    screen.fill(WHITE)
+    screen.fill(BLACK)
     # disegnamo la griglia
     for i in range(game.height):
         for j in range(game.width):
@@ -175,7 +191,6 @@ while not done:
 
     
     if game.figure is not None:
-
         for i in range(4):
             for j in range(4):
                 p = i * 4 + j
@@ -184,17 +199,37 @@ while not done:
                                      [game.x + game.zoom * (j + game.figure.x) + 1,
                                       game.y + game.zoom * (i + game.figure.y) + 1,
                                       game.zoom - 2, game.zoom - 2])
+
     
+
+
+    #griglia del prossimo pezzo
+    for i in range(4):
+        for j in range(4):
+            pygame.draw.rect(screen, GRAY, [ 400 + game.zoom * j, 100 + game.zoom * i, game.zoom, game.zoom ], 1)
+    if game.next_figure is not None:
+        for i in range(4):
+            for j in range(4):
+                p = i * 4 + j
+                if len(game.next_figure) > 2:
+                    if p in game.next_figure[len(game.next_figure)-1].image():
+                        pygame.draw.rect(screen, colori_figure[game.figure.color],
+                                         [400 + game.zoom * (j),
+                                          100 + game.zoom * (i),
+                                          game.zoom , game.zoom ])
+
+
+
     font = pygame.font.SysFont('Calibri', 25, True, False)
     font1 = pygame.font.SysFont('Calibri', 45, True, False)
-    text = font.render("Score: " + str(game.score), True, BLACK)
-    pezzo_i = font.render(f"I   : {game.I}", True, BLACK) 
-    pezzo_s = font.render(f"S   : {game.S}", True, BLACK)
-    pezzo_l = font.render(f"L   : {game.L}", True, BLACK)
-    pezzo_j = font.render(f"J   : {game.J}", True, BLACK)
-    pezzo_t = font.render(f"T   : {game.T}", True, BLACK)
-    pezzo_o = font.render(f"O   : {game.O}", True, BLACK)
-    pezzo_z = font.render(f"Z   : {game.Z}", True, BLACK)
+    text = font.render("Score: " + str(game.score), True, GRAY)
+    pezzo_i = font.render(f"I   : {game.I}", True, GRAY) 
+    pezzo_s = font.render(f"S   : {game.S}", True, GRAY)
+    pezzo_l = font.render(f"L   : {game.L}", True, GRAY)
+    pezzo_j = font.render(f"J   : {game.J}", True, GRAY)
+    pezzo_t = font.render(f"T   : {game.T}", True, GRAY)
+    pezzo_o = font.render(f"O   : {game.O}", True, GRAY)
+    pezzo_z = font.render(f"Z   : {game.Z}", True, GRAY)
 
     text_game_over = font1.render("Game Over", True, (255, 125, 0))
     text_game_over1 = font1.render("Press ESC", True, (255, 215, 0))
