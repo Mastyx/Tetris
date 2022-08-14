@@ -25,7 +25,8 @@ class Tetris:
         self.state = "start"
         self.number_figure = 0
         self.next_figure = []
-
+        self.next_figure.append( Figure(3,0) )
+        self.number_figure += 1
         for i in range(height):
             new_line = []
             for j in range(width):
@@ -34,15 +35,10 @@ class Tetris:
 
     def new_figure(self):
         self.next_figure.append( Figure(3,0) )
-
-        self.next_figure.append( Figure(3,0) )
-        print("self.next_figure numero : ", len(self.next_figure))
-       
-        self.figure = self.next_figure[len(self.next_figure)-1]
-        
-
         self.number_figure += 1
+        print("self.next_figure numero : ", len(self.next_figure))
         
+        self.figure = self.next_figure[len(self.next_figure)-2]
 
         if self.figure.type == 0:
             self.I+=1
@@ -87,6 +83,11 @@ class Tetris:
                     for j in range(self.width):
                         self.field[i1][j] = self.field[i1 - 1][j]
         self.score += lines ** 2
+        if self.score > 30 and self.score < 49:
+            self.level = 3
+        elif self.score > 49 and self.score < 79 :
+            self.level = 4
+            
     
     def go_space(self):
         while not self.intersects():
@@ -128,7 +129,7 @@ mixer.init()
 BLACK = (0,0,0)
 WHITE = (255,255,255)
 GRAY = (128,128,128)
-
+MYCOLOR1 = (107, 255, 139)
 
 
 size = (800, 1000)
@@ -144,7 +145,7 @@ pressing_down = False
 
 mixer.music.load('tetris1.ogg')
 mixer.music.play(-1)
-
+#pygame.mixer.Channel(0).play(pygame.mixer.Sound('tetris1.ogg'),-1)
 #ciclo del gioco 
 while not done:
     
@@ -211,9 +212,9 @@ while not done:
         for i in range(4):
             for j in range(4):
                 p = i * 4 + j
-                if len(game.next_figure) > 2:
+                if len(game.next_figure) >= 1:
                     if p in game.next_figure[len(game.next_figure)-1].image():
-                        pygame.draw.rect(screen, colori_figure[game.figure.color],
+                        pygame.draw.rect(screen, MYCOLOR1,
                                          [400 + game.zoom * (j),
                                           100 + game.zoom * (i),
                                           game.zoom , game.zoom ])
