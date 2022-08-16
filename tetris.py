@@ -47,9 +47,9 @@ class Tetris:
         elif self.figure.type == 2:
             self.S+=1
         elif self.figure.type == 3:
-            self.J+=1
-        elif self.figure.type == 4:
             self.L+=1
+        elif self.figure.type == 4:
+            self.J+=1
         elif self.figure.type == 5:
             self.T+=1
         elif self.figure.type == 6:
@@ -123,6 +123,8 @@ class Tetris:
         self.new_figure()
         if self.intersects():
             game.state = "gameover"
+   
+    
 
 pygame.init()
 mixer.init()
@@ -147,6 +149,95 @@ mixer.music.load('tetris1.ogg')
 mixer.music.play(-1)
 #pygame.mixer.Channel(0).play(pygame.mixer.Sound('tetris1.ogg'),-1)
 #ciclo del gioco 
+
+def griglia_statistiche():
+
+    # disegna il pezzo
+    figura1 = Figure.figures[0][0]
+    #print ("Figura 1 ", figura1 )
+    for i in range(4):
+        for j in range(4):
+            p = i * 4 + j
+            if p in figura1:
+                pygame.draw.rect(screen, colori_figure[1],[500 + 10 * (j),60 + 10 * (i),10 , 10])
+    # disegna la griglia 
+    for i in range(4):
+        for j in range(4):
+            pygame.draw.rect(screen, GRAY, [ 500  + 10 * j, 60 + 10 * i, 10, 10 ], 1)
+    # disegna il pezzo
+    figura2 = Figure.figures[1][0]
+    #print ("Figura 2 ", figura2 )
+    for i in range(4):
+        for j in range(4):
+            p = i * 4 + j
+            if p in figura2:
+                pygame.draw.rect(screen, colori_figure[7],[500 + 10 * (j),110 + 10 * (i),10 , 10])
+    # disegna la griglia 
+    for i in range(4):
+        for j in range(4):
+            pygame.draw.rect(screen, GRAY, [ 500  + 10* j, 110 + 10 * i, 10, 10 ], 1)
+    # disegna il pezzo
+    figura3 = Figure.figures[2][0]
+    #print ("Figura 3 ", figura3 )
+    for i in range(4):
+        for j in range(4):
+            p = i * 4 + j
+            if p in figura3:
+                pygame.draw.rect(screen, colori_figure[6],[500 + 10 * (j),160 + 10 * (i),10 , 10])
+    # disegna la griglia 
+    for i in range(4):
+        for j in range(4):
+            pygame.draw.rect(screen, GRAY, [ 500  + 10* j, 160 + 10 * i, 10, 10 ], 1)
+    # disegna il pezzo
+    figura4 = Figure.figures[3][0]
+    #print ("Figura 4 ", figura4 )
+    for i in range(4):
+        for j in range(4):
+            p = i * 4 + j
+            if p in figura4:
+                pygame.draw.rect(screen, colori_figure[3] ,[500 + 10 * (j),210 + 10 * (i),10 , 10])
+    # disegna la griglia 
+    for i in range(4):
+        for j in range(4):
+            pygame.draw.rect(screen, GRAY, [ 500  + 10* j, 210 + 10 * i, 10, 10 ], 1)
+    # disegna il pezzo
+    figura5 = Figure.figures[4][0]
+    #print ("Figura 5 ", figura5 )
+    for i in range(4):
+        for j in range(4):
+            p = i * 4 + j
+            if p in figura5:
+                pygame.draw.rect(screen, colori_figure[2] ,[500 + 10 * (j),260 + 10 * (i),10 , 10])
+    # disegna la griglia 
+    for i in range(4):
+        for j in range(4):
+            pygame.draw.rect(screen, GRAY, [ 500  + 10* j, 260 + 10 * i, 10, 10 ], 1)
+    # disegna il pezzo
+    figura6 = Figure.figures[5][0]
+    #print ("Figura 6 ", figura6 )
+    for i in range(4):
+        for j in range(4):
+            p = i * 4 + j
+            if p in figura6:
+                pygame.draw.rect(screen, colori_figure[4],[500 + 10 * (j),310 + 10 * (i),10 , 10])
+    # disegna la griglia 
+    for i in range(4):
+        for j in range(4):
+            pygame.draw.rect(screen, GRAY, [ 500  + 10* j, 310 + 10 * i, 10, 10 ], 1)
+    # disegna il pezzo
+    figura7 = Figure.figures[6][0]
+    #print ("Figura 7 ", figura7 )
+    for i in range(4):
+        for j in range(4):
+            p = i * 4 + j
+            if p in figura7:
+                pygame.draw.rect(screen, colori_figure[5],[500 + 10 * (j),360 + 10 * (i),10 , 10])
+    # disegna la griglia 
+    for i in range(4):
+        for j in range(4):
+            pygame.draw.rect(screen, GRAY, [ 500  + 10* j, 360 + 10 * i, 10, 10 ], 1)
+     
+
 while not done:
     
     if game.figure is None:
@@ -207,7 +298,7 @@ while not done:
     #griglia del prossimo pezzo
     for i in range(4):
         for j in range(4):
-            pygame.draw.rect(screen, GRAY, [ 400 + game.zoom * j, 100 + game.zoom * i, game.zoom, game.zoom ], 1)
+            pygame.draw.rect(screen, GRAY, [ 350 + game.zoom * j, 60 + game.zoom * i, game.zoom, game.zoom ], 1)
     if game.next_figure is not None:
         for i in range(4):
             for j in range(4):
@@ -215,33 +306,34 @@ while not done:
                 if len(game.next_figure) >= 1:
                     if p in game.next_figure[len(game.next_figure)-1].image():
                         pygame.draw.rect(screen, MYCOLOR1,
-                                         [400 + game.zoom * (j),
-                                          100 + game.zoom * (i),
+                                         [350 + game.zoom * (j),
+                                          60 + game.zoom * (i),
                                           game.zoom , game.zoom ])
-
-
+    griglia_statistiche() 
 
     font = pygame.font.SysFont('Calibri', 25, True, False)
     font1 = pygame.font.SysFont('Calibri', 45, True, False)
     text = font.render("Score: " + str(game.score), True, GRAY)
-    pezzo_i = font.render(f"I   : {game.I}", True, GRAY) 
-    pezzo_s = font.render(f"S   : {game.S}", True, GRAY)
-    pezzo_l = font.render(f"L   : {game.L}", True, GRAY)
-    pezzo_j = font.render(f"J   : {game.J}", True, GRAY)
-    pezzo_t = font.render(f"T   : {game.T}", True, GRAY)
-    pezzo_o = font.render(f"O   : {game.O}", True, GRAY)
-    pezzo_z = font.render(f"Z   : {game.Z}", True, GRAY)
+    pezzo_i = font.render(f"{game.I}", True, GRAY)  
+    pezzo_z = font.render(f"{game.Z}", True, GRAY)
+    pezzo_s = font.render(f"{game.S}", True, GRAY)
+    pezzo_l = font.render(f"{game.L}", True, GRAY)
+    pezzo_j = font.render(f"{game.J}", True, GRAY)
+    pezzo_t = font.render(f"{game.T}", True, GRAY)
+    pezzo_o = font.render(f"{game.O}", True, GRAY)
+    next_text = font.render(f"NEXT", True, GRAY)
 
     text_game_over = font1.render("Game Over", True, (255, 125, 0))
     text_game_over1 = font1.render("Press ESC", True, (255, 215, 0))
     screen.blit(text, [0, 0])
-    screen.blit(pezzo_i, [600,10])
-    screen.blit(pezzo_s, [600,40])
-    screen.blit(pezzo_l, [600,70])
-    screen.blit(pezzo_j, [600,100])
-    screen.blit(pezzo_t, [600,130])
-    screen.blit(pezzo_o, [600,160])
-    screen.blit(pezzo_z, [600,190])
+    screen.blit(pezzo_i, [550,65])
+    screen.blit(pezzo_z, [550,115])
+    screen.blit(pezzo_s, [550,165])
+    screen.blit(pezzo_l, [550,215])
+    screen.blit(pezzo_j, [550,265])
+    screen.blit(pezzo_t, [550,315])
+    screen.blit(pezzo_o, [550,365])
+    screen.blit(next_text, [353,140])
     if game.state == "gameover":
         screen.blit(text_game_over, [60, 200])
         screen.blit(text_game_over1, [65, 265])
