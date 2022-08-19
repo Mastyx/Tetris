@@ -1,11 +1,15 @@
 import pygame, json
 from pygame.locals import *
 from pygame import mixer
+import pygame_textinput
+
 import random 
 from elements import colori_figure, Figure
 from tkinter import *
 from tkinter import ttk
 import operator
+
+
 class Tetris:
     level = 2
     score = 0
@@ -33,8 +37,8 @@ class Tetris:
         load_record = open("record.dic", "r")
         self.record = json.load(load_record)
         self.record_ordinato = {}
-        self.nome_player = "None"
-        self.input_name() 
+        self.nome_player = input("Inserisci il player : ")
+        #self.input_name() 
 
         self.carica_record()
 
@@ -56,23 +60,25 @@ class Tetris:
         self.record_ordinato = sorted(self.record.items(), key=operator.itemgetter(1), reverse=True)
         print(self.record_ordinato)
 
-    def input_name(self):
-        window = Tk()
-        window.title("Input name")
-        window.geometry("300x100")
-        label = Label(window, text="Inserisci il nome")
-        label.pack()
-        nome= Entry(window)
-        nome.focus()
-        nome.pack()
-        def callback():
-            self.nome_player = nome.get()
-            window.destroy()
+    #def input_name(self):
 
-        b = Button(window, text="Ok", command=callback)
-        b.pack()
-        window.mainloop()
+    #    window = Tk()
+    #    window.title("Input name")
+    #    window.geometry("300x100")
+    #    label = Label(window, text="Inserisci il nome")
+    #    label.pack()
+    #    nome= Entry(window)
+    #    nome.focus()
+    #    nome.pack()
+    #    
+    #    def callback():
+    #        self.nome_player = nome.get()
+    #        window.destroy()
 
+    #    b = Button(window, text="Ok", command=callback)
+    #    b.pack()
+    #    window.mainloop()
+        
 
     def new_figure(self):
         self.next_figure.append( Figure(3,0) )
@@ -188,6 +194,7 @@ pressing_down = False
 
 mixer.music.load('tetris1.ogg')
 mixer.music.play(-1)
+font_base = pygame.font.Font(None, 22)
 
 def griglia_statistiche():
     """ disegniamo i pezzi e le relative griglie per le statistiche""" 
@@ -224,6 +231,7 @@ def stampa_classifica():
             cont +=1
 
 
+    
 
 while not done:
     
@@ -252,13 +260,12 @@ while not done:
             if event.key == pygame.K_SPACE:
                 game.go_space()
             if event.key == pygame.K_ESCAPE:
-                print(f"I {game.I}\nS {game.S}\nL {game.L}\nJ {game.J}\nT {game.T}\nO {game.O}\nZ {game.Z}\n")
                 done = True
     # eventi del rilasio del tasto
     if event.type == pygame.KEYUP:
         if event.key == pygame.K_DOWN:
             pressing_down = False
-
+    
     screen.fill(BLACK)
     # disegnamo la griglia
     for i in range(game.height):
@@ -267,7 +274,6 @@ while not done:
             if game.field[i][j] > 0:
                 pygame.draw.rect(screen, colori_figure[game.field[i][j]],
                                  [game.x + game.zoom * j + 1, game.y + game.zoom * i + 1, game.zoom - 2, game.zoom - 1])
-
     
     if game.figure is not None:
         for i in range(4):
