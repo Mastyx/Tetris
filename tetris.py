@@ -1,12 +1,11 @@
 import pygame, json
 from pygame.locals import *
 from pygame import mixer
-import pygame_textinput
 
 import random 
 from elements import colori_figure, Figure
-from tkinter import *
-from tkinter import ttk
+#from tkinter import *
+#from tkinter import ttk
 import operator
 
 
