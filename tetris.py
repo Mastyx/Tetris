@@ -1,9 +1,11 @@
-import pygame
+import pygame, json
 from pygame.locals import *
 from pygame import mixer
 import random 
 from elements import colori_figure, Figure
-
+from tkinter import *
+from tkinter import ttk
+import operator
 class Tetris:
     level = 2
     score = 0
@@ -27,11 +29,50 @@ class Tetris:
         self.next_figure = []
         self.next_figure.append( Figure(3,0) )
         self.number_figure += 1
+
+        load_record = open("record.dic", "r")
+        self.record = json.load(load_record)
+        self.record_ordinato = {}
+        self.nome_player = "None"
+        self.input_name() 
+
+        self.carica_record()
+
         for i in range(height):
             new_line = []
             for j in range(width):
                 new_line.append(0)
             self.field.append(new_line)
+
+    def save_record(self):
+        """salva su file il record """
+        self.record[self.nome_player] = self.score
+        file = open("record.dic", "w")
+        json.dump(self.record, file)
+        file.close()
+    
+    def carica_record(self):
+        """carica il file dei record """
+        self.record_ordinato = sorted(self.record.items(), key=operator.itemgetter(1), reverse=True)
+        print(self.record_ordinato)
+
+    def input_name(self):
+        window = Tk()
+        window.title("Input name")
+        window.geometry("300x100")
+        label = Label(window, text="Inserisci il nome")
+        label.pack()
+        nome= Entry(window)
+        nome.focus()
+        nome.pack()
+        def callback():
+            self.nome_player = nome.get()
+            window.destroy()
+
+        b = Button(window, text="Ok", command=callback)
+        b.pack()
+        window.mainloop()
+
 
     def new_figure(self):
         self.next_figure.append( Figure(3,0) )
@@ -54,10 +95,7 @@ class Tetris:
             self.T+=1
         elif self.figure.type == 6:
             self.O+=1
-
-        print(f"n.{self.number_figure} - {self.figure.type}")
-
-
+ 
     def intersects(self):
         intersection = False
         for i in range(4):
@@ -124,7 +162,9 @@ class Tetris:
         if self.intersects():
             game.state = "gameover"
    
-    
+
+
+
 
 pygame.init()
 mixer.init()
@@ -132,10 +172,11 @@ BLACK = (0,0,0)
 WHITE = (255,255,255)
 GRAY = (128,128,128)
 MYCOLOR1 = (107, 255, 139)
+BLU = (0, 72, 255)
 
-
-size = (800, 1000)
+size = (800, 600)
 screen = pygame.display.set_mode(size)
+
 pygame.display.set_caption("TETRIS - by mastyx ")
 done = False
 clock = pygame.time.Clock()
@@ -147,96 +188,42 @@ pressing_down = False
 
 mixer.music.load('tetris1.ogg')
 mixer.music.play(-1)
-#pygame.mixer.Channel(0).play(pygame.mixer.Sound('tetris1.ogg'),-1)
-#ciclo del gioco 
 
 def griglia_statistiche():
+    """ disegniamo i pezzi e le relative griglie per le statistiche""" 
+    figura = []
+    for k in range(len(Figure.figures)):
+        figura.append(Figure.figures[k][0])
+        for i in range(4):
+            for j in range(4):
+                p = i * 4 + j 
+                if p in figura[k]:
+                    pygame.draw.rect(screen, colori_figure[k+1], [500+10*j,(50*k) + 60+10*i, 10, 10])
+        #disegniamo la griglia 
+        for i in range(4):
+            for j in range(4):
+                pygame.draw.rect(screen, GRAY, [ 500+10*j, (50*k)+60+10*i, 10, 10], 1) 
 
-    # disegna il pezzo
-    figura1 = Figure.figures[0][0]
-    #print ("Figura 1 ", figura1 )
-    for i in range(4):
-        for j in range(4):
-            p = i * 4 + j
-            if p in figura1:
-                pygame.draw.rect(screen, colori_figure[1],[500 + 10 * (j),60 + 10 * (i),10 , 10])
-    # disegna la griglia 
-    for i in range(4):
-        for j in range(4):
-            pygame.draw.rect(screen, GRAY, [ 500  + 10 * j, 60 + 10 * i, 10, 10 ], 1)
-    # disegna il pezzo
-    figura2 = Figure.figures[1][0]
-    #print ("Figura 2 ", figura2 )
-    for i in range(4):
-        for j in range(4):
-            p = i * 4 + j
-            if p in figura2:
-                pygame.draw.rect(screen, colori_figure[7],[500 + 10 * (j),110 + 10 * (i),10 , 10])
-    # disegna la griglia 
-    for i in range(4):
-        for j in range(4):
-            pygame.draw.rect(screen, GRAY, [ 500  + 10* j, 110 + 10 * i, 10, 10 ], 1)
-    # disegna il pezzo
-    figura3 = Figure.figures[2][0]
-    #print ("Figura 3 ", figura3 )
-    for i in range(4):
-        for j in range(4):
-            p = i * 4 + j
-            if p in figura3:
-                pygame.draw.rect(screen, colori_figure[6],[500 + 10 * (j),160 + 10 * (i),10 , 10])
-    # disegna la griglia 
-    for i in range(4):
-        for j in range(4):
-            pygame.draw.rect(screen, GRAY, [ 500  + 10* j, 160 + 10 * i, 10, 10 ], 1)
-    # disegna il pezzo
-    figura4 = Figure.figures[3][0]
-    #print ("Figura 4 ", figura4 )
-    for i in range(4):
-        for j in range(4):
-            p = i * 4 + j
-            if p in figura4:
-                pygame.draw.rect(screen, colori_figure[3] ,[500 + 10 * (j),210 + 10 * (i),10 , 10])
-    # disegna la griglia 
-    for i in range(4):
-        for j in range(4):
-            pygame.draw.rect(screen, GRAY, [ 500  + 10* j, 210 + 10 * i, 10, 10 ], 1)
-    # disegna il pezzo
-    figura5 = Figure.figures[4][0]
-    #print ("Figura 5 ", figura5 )
-    for i in range(4):
-        for j in range(4):
-            p = i * 4 + j
-            if p in figura5:
-                pygame.draw.rect(screen, colori_figure[2] ,[500 + 10 * (j),260 + 10 * (i),10 , 10])
-    # disegna la griglia 
-    for i in range(4):
-        for j in range(4):
-            pygame.draw.rect(screen, GRAY, [ 500  + 10* j, 260 + 10 * i, 10, 10 ], 1)
-    # disegna il pezzo
-    figura6 = Figure.figures[5][0]
-    #print ("Figura 6 ", figura6 )
-    for i in range(4):
-        for j in range(4):
-            p = i * 4 + j
-            if p in figura6:
-                pygame.draw.rect(screen, colori_figure[4],[500 + 10 * (j),310 + 10 * (i),10 , 10])
-    # disegna la griglia 
-    for i in range(4):
-        for j in range(4):
-            pygame.draw.rect(screen, GRAY, [ 500  + 10* j, 310 + 10 * i, 10, 10 ], 1)
-    # disegna il pezzo
-    figura7 = Figure.figures[6][0]
-    #print ("Figura 7 ", figura7 )
-    for i in range(4):
-        for j in range(4):
-            p = i * 4 + j
-            if p in figura7:
-                pygame.draw.rect(screen, colori_figure[5],[500 + 10 * (j),360 + 10 * (i),10 , 10])
-    # disegna la griglia 
-    for i in range(4):
-        for j in range(4):
-            pygame.draw.rect(screen, GRAY, [ 500  + 10* j, 360 + 10 * i, 10, 10 ], 1)
-     
+    cont = 0
+    
+    
+def stampa_classifica():
+    # griglia per la classifica
+    for i in range(5):
+        pygame.draw.rect(screen, WHITE, [ 350,  430+20*i , 200 ,20 ])
+        pygame.draw.rect(screen, WHITE, [ 350,  430+20*i , 200 ,20 ],1)
+
+    font = pygame.font.SysFont('Calibri', 18, True, False)
+    titolo = font.render("MIGLIORI 5", True, MYCOLOR1)
+    screen.blit(titolo, [350, 410])
+    cont=0
+    for i in  game.record_ordinato:
+        if cont <5 : 
+            testo = font.render(f"{game.record_ordinato[cont]}", True, BLU)
+            screen.blit(testo, [350, 430+20*cont])
+            cont +=1
+
+
 
 while not done:
     
@@ -334,6 +321,7 @@ while not done:
     screen.blit(pezzo_t, [550,315])
     screen.blit(pezzo_o, [550,365])
     screen.blit(next_text, [353,140])
+    stampa_classifica()
     if game.state == "gameover":
         screen.blit(text_game_over, [60, 200])
         screen.blit(text_game_over1, [65, 265])
@@ -342,5 +330,8 @@ while not done:
     clock.tick(fps)
     
     
+    game.save_record()
 pygame.quit()
+
+
 

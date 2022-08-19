@@ -2,14 +2,15 @@ import random
 
 colori_figure = [
         (83, 152, 155), #ciano
-    (201, 58, 58), # rosso
-    (68, 206, 86), #verde
+    (201, 58, 58), # rosso 1
+    (83, 152, 155), # ciano 7
+    (232, 51, 213), #viola 6
     (86, 108, 196), #blu
+    (68, 206, 86), #verde 
     (176, 221, 70), #giallo
     (234, 123, 32), #arancio
-    (232, 51, 213), #viola
-    (83, 152, 155), # ciano
-]
+    
+    ]
 
 class Figure:
     x = 0; y = 0; numero_figura = 0; numero_colore = 0;
@@ -45,17 +46,17 @@ class Figure:
         if self.type == 0:
             type_color = 1
         elif self.type == 1:
-            type_color = 7
+            type_color = 2
         elif self.type == 2:
-            type_color = 6
-        elif self.type == 3:
             type_color = 3
-        elif self.type == 4:
-            type_color = 2 
-        elif self.type == 5:
+        elif self.type == 3:
             type_color = 4
+        elif self.type == 4:
+            type_color = 5 
+        elif self.type == 5:
+            type_color = 6
         elif self.type == 6:
-            type_color = 5
+            type_color = 7
 
         #type_color = random.randint(1, len(colori_figure) -1)
         return type_color
