@@ -56,6 +56,7 @@ class Tetris:
     
     def carica_record(self):
         """carica il file dei record """
+        # ordina gli elementi json di self.record 
         self.record_ordinato = sorted(self.record.items(), key=operator.itemgetter(1), reverse=True)
         print(self.record_ordinato)
 
@@ -229,8 +230,23 @@ def stampa_classifica():
             screen.blit(testo, [350, 430+20*cont])
             cont +=1
 
+# il ciclo principale va in pausa             
+def pause():
+    pause = True
+    font_pause = pygame.font.SysFont("Calibri", 30, False, False)
 
-    
+    while pause:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pause == False
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_p:
+                    pause = False
+        pygame.draw.rect(screen, GRAY, [500, 10, 100, 30], 1)
+        messaggio_pausa = font_pause.render("Pausa [p] per continuare", True, BLU)
+        screen.blit(messaggio_pausa, [50,570]) 
+        pygame.display.update()
+
 
 while not done:
     
@@ -260,6 +276,8 @@ while not done:
                 game.go_space()
             if event.key == pygame.K_ESCAPE:
                 done = True
+            if event.key == pygame.K_p:
+                pause()
     # eventi del rilasio del tasto
     if event.type == pygame.KEYUP:
         if event.key == pygame.K_DOWN:
@@ -301,8 +319,9 @@ while not done:
                                          [350 + game.zoom * (j),
                                           60 + game.zoom * (i),
                                           game.zoom , game.zoom ])
-    griglia_statistiche() 
-
+    griglia_statistiche()
+    game.save_record()
+    stampa_classifica()
     font = pygame.font.SysFont('Calibri', 25, True, False)
     font1 = pygame.font.SysFont('Calibri', 45, True, False)
     text = font.render("Score: " + str(game.score), True, GRAY)
@@ -330,6 +349,9 @@ while not done:
     if game.state == "gameover":
         screen.blit(text_game_over, [60, 200])
         screen.blit(text_game_over1, [65, 265])
+        
+        game.save_record()   
+        stampa_classifica()
 
     pygame.display.flip()
     clock.tick(fps)
