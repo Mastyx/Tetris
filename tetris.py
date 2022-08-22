@@ -244,7 +244,7 @@ def pause():
                     pause = False
         pygame.draw.rect(screen, GRAY, [500, 10, 100, 30], 1)
         messaggio_pausa = font_pause.render("Pausa [p] per continuare", True, BLU)
-        screen.blit(messaggio_pausa, [50,570]) 
+        screen.blit(messaggio_pausa, [50,565]) 
         pygame.display.update()
 
 
