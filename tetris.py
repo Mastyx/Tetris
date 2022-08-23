@@ -172,6 +172,7 @@ class Tetris:
 
 
 
+
 pygame.init()
 mixer.init()
 BLACK = (0,0,0)
@@ -233,7 +234,7 @@ def stampa_classifica():
 # il ciclo principale va in pausa             
 def pause():
     pause = True
-    font_pause = pygame.font.SysFont("Calibri", 30, False, False)
+    font_pause = pygame.font.SysFont("", 30, False, False)
 
     while pause:
         for event in pygame.event.get():
@@ -300,7 +301,7 @@ while not done:
                     pygame.draw.rect(screen, colori_figure[game.figure.color],
                                      [game.x + game.zoom * (j + game.figure.x) + 1,
                                       game.y + game.zoom * (i + game.figure.y) + 1,
-                                      game.zoom - 2, game.zoom - 2])
+                                      game.zoom - 2, game.zoom - 2],0, 5)
 
     
 
@@ -345,7 +346,9 @@ while not done:
     screen.blit(pezzo_t, [550,315])
     screen.blit(pezzo_o, [550,365])
     screen.blit(next_text, [353,140])
+    
     stampa_classifica()
+
     if game.state == "gameover":
         screen.blit(text_game_over, [60, 200])
         screen.blit(text_game_over1, [65, 265])
